@@ -34,8 +34,8 @@ class MyApp extends StatelessWidget {
             title: 'Flutter Demo Home Page', toggle: _drawerController.toggle),
         menuScreen: const Sidebar(),
         // Example: Disable swipe on specific routes
-        // Note: This only affects drawer opening gesture in the edge area (20px).
-        // Back navigation and other gestures continue to work normally.
+        // Note: When swipe is disabled, no gesture detectors are added,
+        // allowing iOS back swipe and other system gestures to work normally.
         isSwipeEnabled: true,
         swipeEnabledRoutes: const [
           '/home',

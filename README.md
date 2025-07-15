@@ -132,7 +132,7 @@ The swipe control only affects the drawer opening gesture. Other navigation gest
 - **Drawer opening gesture**: Controlled by `isSwipeEnabled` and `swipeEnabledRoutes`
 - **Drawer closing gesture**: Always works when drawer is open
 
-The implementation uses `HitTestBehavior.opaque` only in the edge area (20px) to detect drawer opening gestures, allowing other gestures to pass through the main screen area. This ensures that users can still navigate back even when drawer swipe is disabled on certain routes.
+The implementation only adds gesture detectors when swipe is enabled for the current route. When swipe is disabled, no gesture detectors are added, allowing the system's default gestures (like iOS back swipe) to work normally. This ensures that users can still navigate back even when drawer swipe is disabled on certain routes.
 
 ### Using with different routing systems
 
