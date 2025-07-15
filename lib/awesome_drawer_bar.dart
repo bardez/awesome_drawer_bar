@@ -826,33 +826,33 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
             // Main screen - always allow system gestures to pass through
             mainScreen,
             // Only add gesture detectors when swipe is enabled
-            if (isSwipeEnabledForCurrentRoute()) ...[
-              // Close gesture when drawer is open
-              if (_animationController.value > 0)
-                GestureDetector(
-                  onHorizontalDragUpdate: (details) => closeDrag(details),
-                  child: Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    color: Colors.transparent,
-                  ),
-                ),
-              // Edge gesture detector for opening drawer
-              Positioned(
-                left: widget.isRTL ? null : 0,
-                right: widget.isRTL ? 0 : null,
-                top: 0,
-                bottom: 0,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onHorizontalDragUpdate: (details) => openDrag(details),
-                  child: Container(
-                    width: DrawerState.closed == _state ? 20 : 0,
-                    color: Colors.transparent,
-                  ),
+            // Close gesture when drawer is open
+            if (_animationController.value > 0)
+              GestureDetector(
+                onHorizontalDragUpdate: (details) => closeDrag(details),
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: Colors.transparent,
                 ),
               ),
-            ],
+            // Edge gesture detector for opening drawer
+            Positioned(
+              left: widget.isRTL ? null : 0,
+              right: widget.isRTL ? 0 : null,
+              top: 0,
+              bottom: 0,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onHorizontalDragUpdate: isSwipeEnabledForCurrentRoute()
+                    ? (details) => openDrag(details)
+                    : null,
+                child: Container(
+                  width: DrawerState.closed == _state ? 20 : 0,
+                  color: Colors.transparent,
+                ),
+              ),
+            ),
           ],
         ),
       ],
