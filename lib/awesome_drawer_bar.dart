@@ -468,20 +468,19 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
                     ],
                   ),
                 ),
-                // Close gesture when drawer is open
-                if (_animationController.value > 0)
-                  GestureDetector(
-                    onHorizontalDragUpdate: isSwipeEnabledForCurrentRoute()
-                        ? (details) => closeDrag(details)
-                        : null,
-                    child: Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      color: Colors.transparent,
+                // Only add gesture detectors when swipe is enabled
+                if (isSwipeEnabledForCurrentRoute()) ...[
+                  // Close gesture when drawer is open
+                  if (_animationController.value > 0)
+                    GestureDetector(
+                      onHorizontalDragUpdate: (details) => closeDrag(details),
+                      child: Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        color: Colors.transparent,
+                      ),
                     ),
-                  ),
-                // Edge gesture detector for opening drawer - only when enabled
-                if (isSwipeEnabledForCurrentRoute())
+                  // Edge gesture detector for opening drawer
                   Positioned(
                     left: widget.isRTL ? null : 0,
                     right: widget.isRTL ? 0 : null,
@@ -517,6 +516,7 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
                       ),
                     ),
                   ),
+                ],
               ],
             ),
           ],
@@ -824,20 +824,19 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
           children: [
             // Main screen - always allow system gestures to pass through
             mainScreen,
-            // Close gesture when drawer is open
-            if (_animationController.value > 0)
-              GestureDetector(
-                onHorizontalDragUpdate: isSwipeEnabledForCurrentRoute()
-                    ? (details) => closeDrag(details)
-                    : null,
-                child: Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  color: Colors.transparent,
+            // Only add gesture detectors when swipe is enabled
+            if (isSwipeEnabledForCurrentRoute()) ...[
+              // Close gesture when drawer is open
+              if (_animationController.value > 0)
+                GestureDetector(
+                  onHorizontalDragUpdate: (details) => closeDrag(details),
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.transparent,
+                  ),
                 ),
-              ),
-            // Edge gesture detector for opening drawer - only when enabled
-            if (isSwipeEnabledForCurrentRoute())
+              // Edge gesture detector for opening drawer
               Positioned(
                 left: widget.isRTL ? null : 0,
                 right: widget.isRTL ? 0 : null,
@@ -852,6 +851,7 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
                   ),
                 ),
               ),
+            ],
           ],
         ),
       ],

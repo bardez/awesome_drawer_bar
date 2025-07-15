@@ -80,65 +80,33 @@ To get access to the drawer, and be able to control it, there are 2 ways:
   AwesomeDrawerBar.of(context).stateNotifier;
 ```
 
-### Swipe Control by Route
+## Controle de Swipe por Rota
 
-You can control when swipe is enabled or disabled based on the current route. **Note:** This only affects the drawer opening gesture. Other navigation gestures (like back swipe) will continue to work normally.
+O `AwesomeDrawerBar` permite controlar quando o swipe para abrir o menu está habilitado, baseado na rota atual. Isso é útil para desabilitar o swipe em telas específicas onde você quer que o swipe natural do sistema (como o gesto de voltar no iOS) funcione normalmente.
 
-```dart
-AwesomeDrawerBar(
-  controller: _drawerController,
-  mainScreen: MyHomePage(),
-  menuScreen: Sidebar(),
+### Propriedades de Controle
 
-  // Disable swipe completely
-  isSwipeEnabled: false,
+- `isSwipeEnabled` (bool): Habilita/desabilita o controle de swipe por rota
+- `swipeEnabledRoutes` (List<String>?): Lista de rotas onde o swipe está habilitado
+- `getCurrentRoute` (String Function()?): Callback para obter a rota atual (útil para sistemas de roteamento customizados)
 
-  // OR enable swipe only on specific routes
-  isSwipeEnabled: true,
-  swipeEnabledRoutes: ['/home', '/profile'], // Only these routes will have swipe enabled
+### Comportamento
 
-  // OR enable swipe on all routes (default behavior)
-  isSwipeEnabled: true,
-  swipeEnabledRoutes: null, // Enables swipe on all routes
-)
-```
+**Quando o swipe está habilitado para a rota atual:**
 
-**Usage examples:**
+- O swipe na borda da tela (20px) abre o menu
+- O swipe no menu aberto fecha o menu
+- Outros gestos do sistema continuam funcionando normalmente
 
-1. **Disable swipe completely:**
+**Quando o swipe está desabilitado para a rota atual:**
 
-   ```dart
-   isSwipeEnabled: false,
-   ```
+- Nenhum detector de gesto é adicionado para o menu
+- O swipe natural do sistema (como o gesto de voltar no iOS) funciona normalmente
+- O menu só pode ser aberto programaticamente (botão, etc.)
 
-2. **Enable swipe only on specific routes:**
+### Exemplos de Uso
 
-   ```dart
-   isSwipeEnabled: true,
-   swipeEnabledRoutes: ['/home', '/profile', '/dashboard'],
-   ```
-
-3. **Enable swipe on all routes (default behavior):**
-   ```dart
-   isSwipeEnabled: true,
-   swipeEnabledRoutes: null,
-   ```
-
-### Gesture Behavior
-
-The swipe control only affects the drawer opening gesture. Other navigation gestures remain unaffected:
-
-- **Back swipe gesture**: Always works for navigation
-- **Drawer opening gesture**: Controlled by `isSwipeEnabled` and `swipeEnabledRoutes`
-- **Drawer closing gesture**: Always works when drawer is open
-
-The implementation only adds gesture detectors when swipe is enabled for the current route. When swipe is disabled, no gesture detectors are added, allowing the system's default gestures (like iOS back swipe) to work normally. This ensures that users can still navigate back even when drawer swipe is disabled on certain routes.
-
-### Using with different routing systems
-
-The `getCurrentRoute` parameter allows you to integrate with any routing system:
-
-**With GoRouter:**
+#### 1. Desabilitar swipe em rotas específicas
 
 ```dart
 AwesomeDrawerBar(
@@ -146,12 +114,25 @@ AwesomeDrawerBar(
   mainScreen: MyHomePage(),
   menuScreen: Sidebar(),
   isSwipeEnabled: true,
-  swipeEnabledRoutes: ['/home', '/profile'],
-  getCurrentRoute: () => GoRouter.of(context).location,
+  swipeEnabledRoutes: const [
+    '/home',
+    '/profile'
+  ], // Apenas estas rotas terão swipe habilitado
 )
 ```
 
-**With custom routing:**
+#### 2. Desabilitar swipe completamente
+
+```dart
+AwesomeDrawerBar(
+  controller: _drawerController,
+  mainScreen: MyHomePage(),
+  menuScreen: Sidebar(),
+  isSwipeEnabled: false, // Desabilita swipe em todas as rotas
+)
+```
+
+#### 3. Habilitar swipe em todas as rotas
 
 ```dart
 AwesomeDrawerBar(
@@ -159,12 +140,11 @@ AwesomeDrawerBar(
   mainScreen: MyHomePage(),
   menuScreen: Sidebar(),
   isSwipeEnabled: true,
-  swipeEnabledRoutes: ['/home', '/profile'],
-  getCurrentRoute: () => MyCustomRouter.getCurrentRoute(),
+  swipeEnabledRoutes: null, // Habilita swipe em todas as rotas
 )
 ```
 
-**With simple string-based routing:**
+#### 4. Com GoRouter
 
 ```dart
 AwesomeDrawerBar(
@@ -172,10 +152,34 @@ AwesomeDrawerBar(
   mainScreen: MyHomePage(),
   menuScreen: Sidebar(),
   isSwipeEnabled: true,
-  swipeEnabledRoutes: ['/home', '/profile'],
-  getCurrentRoute: () => '/current-route',
+  swipeEnabledRoutes: const ['/home', '/profile'],
+  getCurrentRoute: () {
+    return GoRouter.of(context).location;
+  },
 )
 ```
+
+#### 5. Com roteamento customizado
+
+```dart
+AwesomeDrawerBar(
+  controller: _drawerController,
+  mainScreen: MyHomePage(),
+  menuScreen: Sidebar(),
+  isSwipeEnabled: true,
+  swipeEnabledRoutes: const ['/home', '/profile'],
+  getCurrentRoute: () {
+    return MyCustomRouter.getCurrentRoute();
+  },
+)
+```
+
+### Notas Importantes
+
+- **Swipe Natural do Sistema**: Quando o swipe do menu está desabilitado, nenhum detector de gesto interfere com os gestos naturais do sistema (como o swipe de voltar no iOS)
+- **Borda da Tela**: O swipe para abrir o menu só funciona na borda da tela (20px), não interferindo com gestos no centro da tela
+- **Performance**: Não há impacto na performance quando o swipe está desabilitado, pois nenhum detector de gesto é adicionado
+- **Compatibilidade**: Funciona com qualquer sistema de roteamento (GoRouter, AutoRoute, roteamento customizado, etc.)
 
 ## Screens
 
