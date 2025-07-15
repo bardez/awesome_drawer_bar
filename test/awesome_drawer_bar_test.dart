@@ -61,5 +61,47 @@ void main() {
       // Check if the widget was created correctly
       expect(find.byType(AwesomeDrawerBar), findsOneWidget);
     });
+
+    testWidgets('should create drawer with getCurrentRoute function',
+        (WidgetTester tester) async {
+      final controller = AwesomeDrawerBarController();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: AwesomeDrawerBar(
+            controller: controller,
+            mainScreen: Container(color: Colors.blue),
+            menuScreen: Container(color: Colors.red),
+            isSwipeEnabled: true,
+            swipeEnabledRoutes: ['/home', '/profile'],
+            getCurrentRoute: () => '/home',
+          ),
+        ),
+      );
+
+      // Check if the widget was created correctly
+      expect(find.byType(AwesomeDrawerBar), findsOneWidget);
+    });
+
+    testWidgets('should create drawer with null getCurrentRoute function',
+        (WidgetTester tester) async {
+      final controller = AwesomeDrawerBarController();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: AwesomeDrawerBar(
+            controller: controller,
+            mainScreen: Container(color: Colors.blue),
+            menuScreen: Container(color: Colors.red),
+            isSwipeEnabled: true,
+            swipeEnabledRoutes: ['/home', '/profile'],
+            getCurrentRoute: () => null,
+          ),
+        ),
+      );
+
+      // Check if the widget was created correctly
+      expect(find.byType(AwesomeDrawerBar), findsOneWidget);
+    });
   });
 }

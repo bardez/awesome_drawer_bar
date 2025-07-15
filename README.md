@@ -38,20 +38,21 @@ dependencies:
     )
 ```
 
-| Parameters           | Value                        | Required | Docs                                                                              |
-| -------------------- | ---------------------------- | :------: | --------------------------------------------------------------------------------- |
-| `controller`         | `AwesomeDrawerBarController` |    No    | Controller to have access to the open/close/toggle function of the drawer         |
-| `mainScreen`         | `Widget`                     |   Yes    | Screen containing the main content to display                                     |
-| `menuScreen`         | `Widget`                     |   Yes    | Screen containing the menu/bottom screen                                          |
-| `slideWidth`         | `double`                     |    No    | Sliding width of the drawer - defaults to 275.0                                   |
-| `borderRadius`       | `double`                     |    No    | Border radius of the slided content - defaults to 16.0                            |
-| `angle`              | `double`                     |    No    | Rotation angle of the drawer - defaults to -12.0 - should be 0.0 to -30.0         |
-| `backgroundColor`    | `Color`                      |    No    | Background color of the drawer shadows - defaults to white                        |
-| `showShadow`         | `bool`                       |    No    | Boolean, whether to show the drawer shadows - defaults to false                   |
-| `openCurve`          | `Curve`                      |    No    | open animation curve - defaults to `Curves.easeOut`                               |
-| `closeCurve`         | `Curve`                      |    No    | close animation curve - defaults to `Curves.easeOut`                              |
-| `isSwipeEnabled`     | `bool`                       |    No    | Boolean to control if swipe is enabled globally - defaults to true                |
-| `swipeEnabledRoutes` | `List<String>?`              |    No    | List of route names where swipe is enabled (if null, swipe is enabled everywhere) |
+| Parameters           | Value                        | Required | Docs                                                                                     |
+| -------------------- | ---------------------------- | :------: | ---------------------------------------------------------------------------------------- |
+| `controller`         | `AwesomeDrawerBarController` |    No    | Controller to have access to the open/close/toggle function of the drawer                |
+| `mainScreen`         | `Widget`                     |   Yes    | Screen containing the main content to display                                            |
+| `menuScreen`         | `Widget`                     |   Yes    | Screen containing the menu/bottom screen                                                 |
+| `slideWidth`         | `double`                     |    No    | Sliding width of the drawer - defaults to 275.0                                          |
+| `borderRadius`       | `double`                     |    No    | Border radius of the slided content - defaults to 16.0                                   |
+| `angle`              | `double`                     |    No    | Rotation angle of the drawer - defaults to -12.0 - should be 0.0 to -30.0                |
+| `backgroundColor`    | `Color`                      |    No    | Background color of the drawer shadows - defaults to white                               |
+| `showShadow`         | `bool`                       |    No    | Boolean, whether to show the drawer shadows - defaults to false                          |
+| `openCurve`          | `Curve`                      |    No    | open animation curve - defaults to `Curves.easeOut`                                      |
+| `closeCurve`         | `Curve`                      |    No    | close animation curve - defaults to `Curves.easeOut`                                     |
+| `isSwipeEnabled`     | `bool`                       |    No    | Boolean to control if swipe is enabled globally - defaults to true                       |
+| `swipeEnabledRoutes` | `List<String>?`              |    No    | List of route names where swipe is enabled (if null, swipe is enabled everywhere)        |
+| `getCurrentRoute`    | `String? Function()?`        |    No    | Function to get the current route name - useful for custom routing systems like GoRouter |
 
 ### Controlling the drawer
 
@@ -122,6 +123,49 @@ AwesomeDrawerBar(
    isSwipeEnabled: true,
    swipeEnabledRoutes: null,
    ```
+
+### Using with different routing systems
+
+The `getCurrentRoute` parameter allows you to integrate with any routing system:
+
+**With GoRouter:**
+
+```dart
+AwesomeDrawerBar(
+  controller: _drawerController,
+  mainScreen: MyHomePage(),
+  menuScreen: Sidebar(),
+  isSwipeEnabled: true,
+  swipeEnabledRoutes: ['/home', '/profile'],
+  getCurrentRoute: () => GoRouter.of(context).location,
+)
+```
+
+**With custom routing:**
+
+```dart
+AwesomeDrawerBar(
+  controller: _drawerController,
+  mainScreen: MyHomePage(),
+  menuScreen: Sidebar(),
+  isSwipeEnabled: true,
+  swipeEnabledRoutes: ['/home', '/profile'],
+  getCurrentRoute: () => MyCustomRouter.getCurrentRoute(),
+)
+```
+
+**With simple string-based routing:**
+
+```dart
+AwesomeDrawerBar(
+  controller: _drawerController,
+  mainScreen: MyHomePage(),
+  menuScreen: Sidebar(),
+  isSwipeEnabled: true,
+  swipeEnabledRoutes: ['/home', '/profile'],
+  getCurrentRoute: () => '/current-route',
+)
+```
 
 ## Screens
 

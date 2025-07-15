@@ -41,6 +41,18 @@ class MyApp extends StatelessWidget {
         ], // Only these routes will have swipe enabled
         // swipeEnabledRoutes: null, // Enables swipe on all routes
         // isSwipeEnabled: false, // Disables swipe completely
+
+        // Example: Using with GoRouter or custom routing systems
+        // getCurrentRoute: () {
+        //   // For GoRouter
+        //   return GoRouter.of(context).location;
+        //
+        //   // For custom routing
+        //   return MyCustomRouter.getCurrentRoute();
+        //
+        //   // For simple string-based routing
+        //   return '/current-route';
+        // },
       ),
     );
   }

@@ -43,6 +43,7 @@ class AwesomeDrawerBar extends StatefulWidget {
     this.disableOnCickOnMainScreen = false,
     this.isSwipeEnabled = true,
     this.swipeEnabledRoutes,
+    this.getCurrentRoute,
   }) : assert(angle <= 0.0 && angle >= -30.0);
 
   // Layout style
@@ -94,6 +95,9 @@ class AwesomeDrawerBar extends StatefulWidget {
 
   /// List of route names where swipe is enabled (if null, swipe is enabled everywhere)
   final List<String>? swipeEnabledRoutes;
+
+  /// Function to get the current route name - useful for custom routing systems like GoRouter
+  final String? Function()? getCurrentRoute;
 
   @override
   _AwesomeDrawerBarState createState() => new _AwesomeDrawerBarState();
@@ -152,7 +156,19 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
 
     if (widget.swipeEnabledRoutes == null) return true;
 
-    final currentRoute = ModalRoute.of(context)?.settings.name;
+    String? currentRoute;
+
+    // Try to get current route from the callback function first
+    if (widget.getCurrentRoute != null) {
+      currentRoute = widget.getCurrentRoute!();
+    }
+
+    // Fallback to ModalRoute if callback is not provided or returns null
+    if (currentRoute == null) {
+      currentRoute = ModalRoute.of(context)?.settings.name;
+    }
+
+    // If still null, enable swipe (default behavior)
     if (currentRoute == null) return true;
 
     return widget.swipeEnabledRoutes!.contains(currentRoute);
