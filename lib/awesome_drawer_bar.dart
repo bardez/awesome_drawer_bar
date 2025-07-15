@@ -480,34 +480,42 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
                     },
                   ),
                 ),
-                // Only add the edge gesture detector if swipe is enabled for opening
+                // Edge gesture detector for opening drawer - only when enabled
                 if (isSwipeEnabledForCurrentRoute())
-                  GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onHorizontalDragUpdate: (details) {
-                      double dx = details.delta.dx;
-                      if (dx > 6 && !widget.isRTL) {
-                        if (_state == DrawerState.closed) {
-                          open();
+                  Positioned(
+                    left: widget.isRTL ? null : 0,
+                    right: widget.isRTL ? 0 : null,
+                    top: 0,
+                    bottom: 0,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onHorizontalDragUpdate: (details) {
+                        double dx = details.delta.dx;
+                        if (dx > 6 && !widget.isRTL) {
+                          if (_state == DrawerState.closed) {
+                            open();
+                          }
+                        } else if (dx < -6 && !widget.isRTL) {
+                          if (_state == DrawerState.open) {
+                            close();
+                          }
                         }
-                      } else if (dx < -6 && !widget.isRTL) {
-                        if (_state == DrawerState.open) {
-                          close();
-                        }
-                      }
 
-                      if (dx < -6 && widget.isRTL) {
-                        if (_state == DrawerState.closed) {
-                          open();
+                        if (dx < -6 && widget.isRTL) {
+                          if (_state == DrawerState.closed) {
+                            open();
+                          }
+                        } else if (dx > 6 && widget.isRTL) {
+                          if (_state == DrawerState.open) {
+                            close();
+                          }
                         }
-                      } else if (dx > 6 && widget.isRTL) {
-                        if (_state == DrawerState.open) {
-                          close();
-                        }
-                      }
-                    },
-                    child:
-                        Container(width: DrawerState.closed == _state ? 20 : 0),
+                      },
+                      child: Container(
+                        width: DrawerState.closed == _state ? 20 : 0,
+                        color: Colors.transparent,
+                      ),
+                    ),
                   ),
               ],
             ),
@@ -569,12 +577,21 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
                     child: widget.mainScreen,
                   ),
                   if (_animationController.value > 0)
-                    GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onHorizontalDragUpdate: isSwipeEnabledForCurrentRoute()
-                          ? (details) => openDrag(details)
-                          : null,
-                      child: Container(width: 20),
+                    Positioned(
+                      left: widget.isRTL ? null : 0,
+                      right: widget.isRTL ? 0 : null,
+                      top: 0,
+                      bottom: 0,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onHorizontalDragUpdate: isSwipeEnabledForCurrentRoute()
+                            ? (details) => openDrag(details)
+                            : null,
+                        child: Container(
+                          width: 20,
+                          color: Colors.transparent,
+                        ),
+                      ),
                     ),
                 ],
               ),
@@ -699,12 +716,21 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
             Stack(
               children: [
                 widget.mainScreen,
-                // Only add the edge gesture detector if swipe is enabled for opening
+                // Edge gesture detector for opening drawer - only when enabled
                 if (isSwipeEnabledForCurrentRoute())
-                  GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onHorizontalDragUpdate: (details) => openDrag(details),
-                    child: Container(width: 20),
+                  Positioned(
+                    left: widget.isRTL ? null : 0,
+                    right: widget.isRTL ? 0 : null,
+                    top: 0,
+                    bottom: 0,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onHorizontalDragUpdate: (details) => openDrag(details),
+                      child: Container(
+                        width: 20,
+                        color: Colors.transparent,
+                      ),
+                    ),
                   ),
               ],
             ),
@@ -797,6 +823,7 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
         if (shadow != null) ...shadow,
         Stack(
           children: [
+            // Main screen with close gesture when drawer is open
             GestureDetector(
               onHorizontalDragUpdate: _animationController.value > 0 &&
                       isSwipeEnabledForCurrentRoute()
@@ -806,13 +833,20 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
                   : null,
               child: mainScreen,
             ),
-            // Only add the edge gesture detector if swipe is enabled for opening
+            // Edge gesture detector for opening drawer - only when enabled
             if (isSwipeEnabledForCurrentRoute())
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onHorizontalDragUpdate: (details) => openDrag(details),
-                child: Container(
-                  width: DrawerState.closed == _state ? 20 : 0,
+              Positioned(
+                left: widget.isRTL ? null : 0,
+                right: widget.isRTL ? 0 : null,
+                top: 0,
+                bottom: 0,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onHorizontalDragUpdate: (details) => openDrag(details),
+                  child: Container(
+                    width: DrawerState.closed == _state ? 20 : 0,
+                    color: Colors.transparent,
+                  ),
                 ),
               ),
           ],
