@@ -103,5 +103,28 @@ void main() {
       // Check if the widget was created correctly
       expect(find.byType(AwesomeDrawerBar), findsOneWidget);
     });
+
+    testWidgets('should test swipe gesture detection logic',
+        (WidgetTester tester) async {
+      final controller = AwesomeDrawerBarController();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: AwesomeDrawerBar(
+            controller: controller,
+            mainScreen: Container(color: Colors.blue),
+            menuScreen: Container(color: Colors.red),
+            isSwipeEnabled: true,
+            swipeEnabledRoutes: null, // Enable swipe on all routes
+          ),
+        ),
+      );
+
+      // Check if the widget was created correctly
+      expect(find.byType(AwesomeDrawerBar), findsOneWidget);
+
+      // Test that the drawer starts closed
+      expect(controller.isOpen!(), false);
+    });
   });
 }

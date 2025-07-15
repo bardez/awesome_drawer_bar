@@ -317,13 +317,13 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
     if (!isSwipeEnabledForCurrentRoute()) return;
 
     double dx = details.delta.dx;
-    if ((dx > 6 || dx < 6 && _state == DrawerState.open) && !widget.isRTL) {
+    if (dx > 6 && !widget.isRTL) {
       if (_state == DrawerState.closed) {
         open();
       }
     }
 
-    if ((dx < -6 || dx > 6 && _state == DrawerState.open) && widget.isRTL) {
+    if (dx < -6 && widget.isRTL) {
       if (_state == DrawerState.closed) {
         open();
       }
@@ -334,13 +334,13 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
     if (!isSwipeEnabledForCurrentRoute()) return;
 
     double dx = details.delta.dx;
-    if ((dx > 6 || dx < 6 && _state == DrawerState.open) && !widget.isRTL) {
-      if (_state == DrawerState.open && dx < -6) {
+    if (dx < -6 && !widget.isRTL) {
+      if (_state == DrawerState.open) {
         close();
       }
     }
-    if ((dx < -6 || dx > 6 && _state == DrawerState.open) && widget.isRTL) {
-      if (_state == DrawerState.open && dx > 6) {
+    if (dx > 6 && widget.isRTL) {
+      if (_state == DrawerState.open) {
         close();
       }
     }
@@ -486,20 +486,22 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
                     behavior: HitTestBehavior.translucent,
                     onHorizontalDragUpdate: (details) {
                       double dx = details.delta.dx;
-                      if ((dx > 6 || dx < 6 && _state == DrawerState.open) &&
-                          !widget.isRTL) {
+                      if (dx > 6 && !widget.isRTL) {
                         if (_state == DrawerState.closed) {
                           open();
-                        } else if (_state == DrawerState.open && dx < -6) {
+                        }
+                      } else if (dx < -6 && !widget.isRTL) {
+                        if (_state == DrawerState.open) {
                           close();
                         }
                       }
 
-                      if ((dx < -6 || dx > 6 && _state == DrawerState.open) &&
-                          widget.isRTL) {
+                      if (dx < -6 && widget.isRTL) {
                         if (_state == DrawerState.closed) {
                           open();
-                        } else if (_state == DrawerState.open && dx > 6) {
+                        }
+                      } else if (dx > 6 && widget.isRTL) {
+                        if (_state == DrawerState.open) {
                           close();
                         }
                       }
