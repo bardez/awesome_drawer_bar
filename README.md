@@ -10,17 +10,16 @@ To start using this package, add `awesome_drawer_bar` dependency to your `pubspe
 
 ```yaml
 dependencies:
-  awesome_drawer_bar: '<latest_release>'
+  awesome_drawer_bar: "<latest_release>"
 ```
 
 ## Features
 
-* Simple sliding drawer
-* Sliding drawer with shadows
-* Sliding drawer with rotation
-* Sliding drawer with rotation and shadows
-* Support for both LTR & RTL
-
+- Simple sliding drawer
+- Sliding drawer with shadows
+- Sliding drawer with rotation
+- Sliding drawer with rotation and shadows
+- Support for both LTR & RTL
 
 ## Documentation
 
@@ -39,25 +38,27 @@ dependencies:
     )
 ```
 
-| Parameters         | Value                  | Required  | Docs                                                                        |
-| ------------------ |----------------------- | :-------: | --------------------------------------------------------------------------- |
-| `controller`       | `AwesomeDrawerBarController` |    No     | Controller to have access to the open/close/toggle function of the drawer   |
-| `mainScreen`       | `Widget`               |   Yes     | Screen containing the main content to display                               |
-| `menuScreen`       | `Widget`               |   Yes     | Screen containing the menu/bottom screen                                    |
-| `slideWidth`       | `double`               |    No     | Sliding width of the drawer - defaults to 275.0                             |
-| `borderRadius`     | `double`               |    No     | Border radius of the slided content - defaults to 16.0                      |
-| `angle`            | `double`               |    No     | Rotation angle of the drawer - defaults to -12.0 - should be 0.0 to -30.0   |
-| `backgroundColor`  | `Color`                |    No     | Background color of the drawer shadows - defaults to white                  |
-| `showShadow`       | `bool`                 |    No     | Boolean, whether to show the drawer shadows - defaults to false             |
-| `openCurve`        | `Curve`                |    No     | open animation curve - defaults to `Curves.easeOut`                  |
-| `closeCurve`       | `Curve`                |    No     | close animation curve - defaults to `Curves.easeOut`             |
-
+| Parameters           | Value                        | Required | Docs                                                                              |
+| -------------------- | ---------------------------- | :------: | --------------------------------------------------------------------------------- |
+| `controller`         | `AwesomeDrawerBarController` |    No    | Controller to have access to the open/close/toggle function of the drawer         |
+| `mainScreen`         | `Widget`                     |   Yes    | Screen containing the main content to display                                     |
+| `menuScreen`         | `Widget`                     |   Yes    | Screen containing the menu/bottom screen                                          |
+| `slideWidth`         | `double`                     |    No    | Sliding width of the drawer - defaults to 275.0                                   |
+| `borderRadius`       | `double`                     |    No    | Border radius of the slided content - defaults to 16.0                            |
+| `angle`              | `double`                     |    No    | Rotation angle of the drawer - defaults to -12.0 - should be 0.0 to -30.0         |
+| `backgroundColor`    | `Color`                      |    No    | Background color of the drawer shadows - defaults to white                        |
+| `showShadow`         | `bool`                       |    No    | Boolean, whether to show the drawer shadows - defaults to false                   |
+| `openCurve`          | `Curve`                      |    No    | open animation curve - defaults to `Curves.easeOut`                               |
+| `closeCurve`         | `Curve`                      |    No    | close animation curve - defaults to `Curves.easeOut`                              |
+| `isSwipeEnabled`     | `bool`                       |    No    | Boolean to control if swipe is enabled globally - defaults to true                |
+| `swipeEnabledRoutes` | `List<String>?`              |    No    | List of route names where swipe is enabled (if null, swipe is enabled everywhere) |
 
 ### Controlling the drawer
 
 To get access to the drawer, and be able to control it, there are 2 ways:
 
-* Using a `AwesomeDrawerBarController` inside the main widget where ou have the `AwesomeDrawerBar` widget and providing it to the widget, which will allow you to trigger the open/close/toggle methods.
+- Using a `AwesomeDrawerBarController` inside the main widget where ou have the `AwesomeDrawerBar` widget and providing it to the widget, which will allow you to trigger the open/close/toggle methods.
+
 ```dart
     final _drawerController = AwesomeDrawerBarController();
 
@@ -68,7 +69,8 @@ To get access to the drawer, and be able to control it, there are 2 ways:
     _drawerController.stateNotifier;
 ```
 
-* Using the static method inside ancestor widgets to get access to the `AwesomeDrawerBar`.
+- Using the static method inside ancestor widgets to get access to the `AwesomeDrawerBar`.
+
 ```dart
   AwesomeDrawerBar.of(context).open();
   AwesomeDrawerBar.of(context).close();
@@ -77,13 +79,57 @@ To get access to the drawer, and be able to control it, there are 2 ways:
   AwesomeDrawerBar.of(context).stateNotifier;
 ```
 
+### Swipe Control by Route
+
+You can control when swipe is enabled or disabled based on the current route:
+
+```dart
+AwesomeDrawerBar(
+  controller: _drawerController,
+  mainScreen: MyHomePage(),
+  menuScreen: Sidebar(),
+
+  // Disable swipe completely
+  isSwipeEnabled: false,
+
+  // OR enable swipe only on specific routes
+  isSwipeEnabled: true,
+  swipeEnabledRoutes: ['/home', '/profile'], // Only these routes will have swipe enabled
+
+  // OR enable swipe on all routes (default behavior)
+  isSwipeEnabled: true,
+  swipeEnabledRoutes: null, // Enables swipe on all routes
+)
+```
+
+**Usage examples:**
+
+1. **Disable swipe completely:**
+
+   ```dart
+   isSwipeEnabled: false,
+   ```
+
+2. **Enable swipe only on specific routes:**
+
+   ```dart
+   isSwipeEnabled: true,
+   swipeEnabledRoutes: ['/home', '/profile', '/dashboard'],
+   ```
+
+3. **Enable swipe on all routes (default behavior):**
+   ```dart
+   isSwipeEnabled: true,
+   swipeEnabledRoutes: null,
+   ```
+
 ## Screens
 
 ![Example app Demo](https://drive.google.com/uc?export=view&id=1xc6XwVVtpl0RK9IJEdheagM4d1ychQms)
 
 ![Example RTL Demo](https://drive.google.com/uc?export=view&id=1YLC60zJ6N637PB6IQDo4TIXY1qGSJ2ET)
 
-* Drawer Sliding
+- Drawer Sliding
 
 ```dart
     AwesomeDrawerBar(
@@ -100,7 +146,7 @@ To get access to the drawer, and be able to control it, there are 2 ways:
 
 ![Drawer Sliding](https://drive.google.com/uc?export=view&id=1axuT4Geh08s_QjmED9VTZiwZ9dC_C17C)
 
-* Drawer Sliding with shadow
+- Drawer Sliding with shadow
 
 ```dart
     AwesomeDrawerBar(
@@ -117,7 +163,7 @@ To get access to the drawer, and be able to control it, there are 2 ways:
 
 ![Drawer Sliding](https://drive.google.com/uc?export=view&id=1VNkUgtj_bhyYgWJ_Bs3yUpVNUJ30ToPL)
 
-* Drawer Sliding with rotation
+- Drawer Sliding with rotation
 
 ```dart
     AwesomeDrawerBar(
@@ -134,7 +180,7 @@ To get access to the drawer, and be able to control it, there are 2 ways:
 
 ![Drawer Sliding with rotation](https://drive.google.com/uc?export=view&id=1xVYoZHnS9BFi5KicZtP3DY1vEiwZ4FyH)
 
-* Drawer Sliding with rotation and shadows
+- Drawer Sliding with rotation and shadows
 
 ```dart
     AwesomeDrawerBar(
@@ -150,7 +196,6 @@ To get access to the drawer, and be able to control it, there are 2 ways:
 ```
 
 ![Drawer Sliding with rotation and shadows](https://drive.google.com/uc?export=view&id=1b-U25tIY36ka75Ju2jQT9BIUVHv-oNe6)
-
 
 ## Issues
 

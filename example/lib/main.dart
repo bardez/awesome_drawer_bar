@@ -10,7 +10,6 @@ class MyApp extends StatelessWidget {
 
   MyApp({super.key});
 
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -31,8 +30,17 @@ class MyApp extends StatelessWidget {
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       home: AwesomeDrawerBar(
         controller: _drawerController,
-        mainScreen: MyHomePage(title: 'Flutter Demo Home Page', toggle: _drawerController.toggle),
+        mainScreen: MyHomePage(
+            title: 'Flutter Demo Home Page', toggle: _drawerController.toggle),
         menuScreen: const Sidebar(),
+        // Example: Disable swipe on specific routes
+        isSwipeEnabled: true,
+        swipeEnabledRoutes: const [
+          '/home',
+          '/profile'
+        ], // Only these routes will have swipe enabled
+        // swipeEnabledRoutes: null, // Enables swipe on all routes
+        // isSwipeEnabled: false, // Disables swipe completely
       ),
     );
   }
@@ -43,13 +51,44 @@ class Sidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Colors.black,
-      body: Text('Sidebar'),
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            child: const Text(
+              'Menu',
+              style: TextStyle(color: Colors.white, fontSize: 24),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.home, color: Colors.white),
+            title: const Text('Home', style: TextStyle(color: Colors.white)),
+            onTap: () {
+              Navigator.pushNamed(context, '/home');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.person, color: Colors.white),
+            title: const Text('Profile', style: TextStyle(color: Colors.white)),
+            onTap: () {
+              Navigator.pushNamed(context, '/profile');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings, color: Colors.white),
+            title:
+                const Text('Settings', style: TextStyle(color: Colors.white)),
+            onTap: () {
+              Navigator.pushNamed(context, '/settings');
+            },
+          ),
+        ],
+      ),
     );
   }
 }
-
 
 class MyHomePage extends StatefulWidget {
   Function? toggle;
@@ -123,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
