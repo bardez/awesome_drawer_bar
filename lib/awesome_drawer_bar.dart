@@ -577,21 +577,22 @@ class _AwesomeDrawerBarState extends State<AwesomeDrawerBar>
                     child: widget.mainScreen,
                   ),
                   // Edge gesture detector for opening drawer - only when enabled
-                  if (isSwipeEnabledForCurrentRoute())
-                    Positioned(
-                      left: widget.isRTL ? null : 0,
-                      right: widget.isRTL ? 0 : null,
-                      top: 0,
-                      bottom: 0,
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onHorizontalDragUpdate: (details) => openDrag(details),
-                        child: Container(
-                          width: 20,
-                          color: Colors.transparent,
-                        ),
+                  Positioned(
+                    left: widget.isRTL ? null : 0,
+                    right: widget.isRTL ? 0 : null,
+                    top: 0,
+                    bottom: 0,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onHorizontalDragUpdate: isSwipeEnabledForCurrentRoute()
+                          ? (details) => openDrag(details)
+                          : null,
+                      child: Container(
+                        width: 20,
+                        color: Colors.transparent,
                       ),
                     ),
+                  ),
                 ],
               ),
               onTap: () {
