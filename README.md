@@ -82,7 +82,7 @@ To get access to the drawer, and be able to control it, there are 2 ways:
 
 ### Swipe Control by Route
 
-You can control when swipe is enabled or disabled based on the current route:
+You can control when swipe is enabled or disabled based on the current route. **Note:** This only affects the drawer opening gesture. Other navigation gestures (like back swipe) will continue to work normally.
 
 ```dart
 AwesomeDrawerBar(
@@ -123,6 +123,16 @@ AwesomeDrawerBar(
    isSwipeEnabled: true,
    swipeEnabledRoutes: null,
    ```
+
+### Gesture Behavior
+
+The swipe control only affects the drawer opening gesture. Other navigation gestures remain unaffected:
+
+- **Back swipe gesture**: Always works for navigation
+- **Drawer opening gesture**: Controlled by `isSwipeEnabled` and `swipeEnabledRoutes`
+- **Drawer closing gesture**: Always works when drawer is open
+
+This ensures that users can still navigate back even when drawer swipe is disabled on certain routes.
 
 ### Using with different routing systems
 
